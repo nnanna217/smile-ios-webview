@@ -7,33 +7,28 @@
 
 import SwiftUI
 import WebKit
+import UIKit
 
-// WebView wrapper for SwiftUI
-struct WebView: UIViewRepresentable {
-    let url: URL
+// UIKit WebViewController wrapper for SwiftUI
+struct WebViewControllerRepresentable: UIViewControllerRepresentable {
+    var urlString: String
     
-    func makeUIView(context: Context) -> WKWebView {
-        // Configure WebView
-        let configuration = WKWebViewConfiguration()
-        configuration.allowsInlineMediaPlayback = true
-        
-        // Create WebView with configuration
-        let webView = WKWebView(frame: .zero, configuration: configuration)
-        return webView
+    func makeUIViewController(context: Context) -> WebViewController {
+        let webViewController = WebViewController()
+        webViewController.urlString = urlString
+        return webViewController
     }
     
-    func updateUIView(_ webView: WKWebView, context: Context) {
-        // Create request and load URL
-        let request = URLRequest(url: url)
-        webView.load(request)
+    func updateUIViewController(_ uiViewController: WebViewController, context: Context) {
+        // Updates can be handled here if needed
     }
 }
 
 struct ContentView: View {
-    let smileURL = URL(string: "https://smile-hosted-sdk-demo.glitch.me/")!
+    let smileURLString = "https://smile-hosted-sdk-demo.glitch.me/"
     
     var body: some View {
-        WebView(url: smileURL)
+        WebViewControllerRepresentable(urlString: smileURLString)
             .edgesIgnoringSafeArea(.all)
     }
 }
